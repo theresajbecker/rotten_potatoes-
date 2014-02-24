@@ -1,12 +1,31 @@
--#  This file is app/views/movies/index.html.haml
-%h1 All Movies
 
+-#  This file is app/views/movies/index.html.haml
+-# check_box_tag: stackoverflow/questions/
+-#12987920/keep-check-boxes-checked-in-haml
+-#  This file is app/views/movies/index.html.haml
+-# heroku run rake db:seed
+-# %th{:class => @title_header}= link_to 'Movie Title', movie_path(:sort => 'title'), :id => 'title_header'
+-# %
+-# check_box_tag: stackoverflow/questions/12987920/keep-check-boxes-checked-in-haml
+%h1 All Movies
+= form_tag movies_path, :method => :get do
+  Include:
+  - @all_ratings.each do |rating|
+    = rating
+    = check_box_tag "ratings[#{rating}]", rating, if session[:ratings]; session[:ratings].include?(rating) end
+  = submit_tag 'Refresh'
 %table#movies
   %thead
     %tr
-      %th Movie Title
+      - if session[:hilite] == "title"
+        %th.hilite= link_to "Movie Title", movies_path(:field => "title", :direct => :desc)
+      - else
+        %th= link_to "Movie Title", movies_path(:field => "title", :direct => :desc)
       %th Rating
-      %th Release Date
+      - if session[:hilite] == "release_date"
+        %th.hilite= link_to "Release Date", movies_path(:field => "release_date", :direct => :desc)
+      - else
+        %th= link_to "Release Date", movies_path(:field => "release_date", :direct => :desc)
       %th More Info
   %tbody
     - @movies.each do |movie|
