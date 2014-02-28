@@ -4,12 +4,12 @@
   Include:
   - @all_ratings.each do |rating|
     = rating
-    = check_box_tag "ratings[]", rating, session[:ratings].include?(rating.to_s)
+    = check_box_tag "ratings[]", rating, (params[:ratings].presence || session[:ratings].presence || @all_ratings).include?(rating.to_s)
   = submit_tag 'Refresh'
 %table#movies
   %thead
     %tr
-      %th{:class => isHighlighted("title")}= sortable "title", "Movie Title"
+      %th{:class => isHighlighted("rating")}= sortable "title", "Movie Title"
       %th{:class => isHighlighted("rating")}= sortable "rating", "Rating"
       %th{:class => isHighlighted("release_date")}= sortable "release_date", "Release Date"
   %tbody

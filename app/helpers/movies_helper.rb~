@@ -5,7 +5,7 @@ module MoviesHelper
   end
 
   def sortable(column, title)
-    direction = (session[:direction] == "asc") ? "desc" : "asc"
+    direction = (params[:direction] == "asc") ? "desc" : "asc"
     link_to title, {:sort => column, :direction => direction}
   end
 

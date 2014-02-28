@@ -4,8 +4,7 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.uniq.pluck(:rating)
     session[:ratings] = params[:ratings].presence || session[:ratings].presence || @all_ratings
     session[:sort] = params[:sort].presence || session[:sort].presence || 'title'
-    session[:direction] = params[:direction].presence || session[:direction].presence || 'asc'
-    @movies = Movie.order(session[:sort] + " " + session[:direction]).where("rating IN (?)", session[:ratings])
+    @movies = Movie.order( (params[:sort] || "title") + " " + (params[:direction] || "asc") ).where("rating IN (?)", session[:ratings])
   end
 
 
